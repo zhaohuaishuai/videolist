@@ -4,15 +4,15 @@ const audioList = AudioList.create()
 audioList.setPlayerList(
 [
     {
-        src:'https://zhimei20240104.tos-cn-beijing.volces.com/1711676056898__&&__%E6%9D%8E0309-03%E5%B9%B4%E8%BD%BB1.mp4',
-        title:'1',
+        src:'https://m10.music.126.net/20240402170733/0a2a188e5e96367554f5b3542fd894c9/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/14053250220/dd87/4ae2/cea1/b0527953b0247670e94cb8f4d3c3a0dc.mp3',
+        title:'怪天气',
         serial:1,
     },{
-        src:'https://zhimei20240104.tos-cn-beijing.volces.com/1711596681402__&&__abc.mp4',
-        title:'2',
+        src:'https://m10.music.126.net/20240402170907/526c68d19673973d7b4e4b501d093989/ymusic/020f/0f5a/0452/5ec0e7fc2480a8f9b4ee383a32086bc6.mp3',
+        title:'天气',
         serial:2,
     },{
-        src:'https://zhimei20240104.tos-cn-beijing.volces.com/1711535451902__&&__1711517809307__&&__%E6%9C%B4%E6%AD%A3%E7%84%95%E7%89%87%E5%A4%B440.mp4',
+        src:'https://m801.music.126.net/20240402173645/ab1326e9fbc261dfcff5a1561840ad22/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/34133390504/16d8/1ed7/0e29/af6a1ab4ced82857e97b65980b8c37cf.mp3',
         title:'3',
         serial:3,
     }
@@ -28,6 +28,20 @@ document.querySelector('#play_btn')?.addEventListener('click',()=>{
 })
 
 
+document.querySelector('#range')?.addEventListener('input',(e)=>{
+    console.log(e.target.value)
+    document.querySelector("#progress").innerText = e.target.value
+    audioList.progress = e.target.value
+})
 
+audioList.addEventListener('videoListTimeupdate',(e)=>{
+    console.log("videoListTimeupdate",e.detail)
+    document.querySelector('#range').value = e.detail.progress
+    document.querySelector("#progress").innerText = e.detail.progress
+    document.querySelector('#currentTime_format').innerText = e.detail.formatCurrentTime
+    document.querySelector('#duration_format').innerText = e.detail.formatDuration
+})
 
-
+document.querySelector('#play_mode_select')?.addEventListener('change',(e)=>{
+   audioList.mode = e.target.value 
+})

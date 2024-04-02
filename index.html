@@ -8,6 +8,24 @@
   </head>
   <body>
     <div id="app">
+      <div>
+         <!-- 'loop' | 'single' | 'order' | 'random' -->
+         <select id="play_mode_select" value="loop">
+          <option value="loop">loop</option>
+          <option value="single">single</option>
+          <option value="order">order</option>
+          <option value="random">random</option>
+        </select>
+      </div>
+      <div>
+        <span id="currentTime_format"></span>
+        <input id="range" type="range" value="0" min="0" max="100" style="width: 320px;" />
+        <span id="duration_format">/</span>
+      </div>
+      <div>
+        <span id="progress">0</span>
+        
+      </div>
       <button id="play_btn">哈哈</button>
     </div>
     <script type="module" src="/src/main.ts"></script>
