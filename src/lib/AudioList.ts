@@ -78,7 +78,7 @@ class AudioList extends Audio {
     /**
      * 当前播放的索引
      */
-    public _currentIndex:number = 0
+    private _currentIndex:number = 0
     set currentIndex(index:number){
         this.src = this.playerList[index].src
         console.log("currentIndex",index)
@@ -207,19 +207,18 @@ class AudioList extends Audio {
         }})
         this.dispatchEvent(event)
     }
+   
+    /**
+     * 播放进度百分比
+     */
+    get progress(){
+        return this.duration? Math.floor((this.currentTime / this.duration) * 100):0
+    }
     set progress(pro:number){
         const durcation = this.duration
         if(durcation){
             this.currentTime =  (pro/100 )* durcation
         }
-    }
-    /**
-     * 播放进度百分比
-     */
-
-
-    get progress(){
-        return this.duration? Math.floor((this.currentTime / this.duration) * 100):0
     }
 }
 
