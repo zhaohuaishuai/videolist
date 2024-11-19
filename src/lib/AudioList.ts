@@ -254,8 +254,12 @@ class AudioList extends Audio {
   }
   init() {
     this.addEventListener("ended", this.onEnded.bind(this));
-    this.addEventListener("timeupdate", this.onEnded.bind(this));
-    this.addEventListener("error", this.onCustomTimeupdate.bind(this));
+    this.addEventListener("timeupdate", this.onCustomTimeupdate.bind(this));
+    document.addEventListener(
+      "visibilitychange",
+      this.onVisibilityChange.bind(this)
+    );
+    this.addEventListener("error", this.onError.bind(this));
   }
   /**
    * 播放完成事件
@@ -332,6 +336,17 @@ class AudioList extends Audio {
       obj[key] = getNestedValue(item, transformMap[key]);
     }
     return Object.assign(item, obj);
+  }
+
+  onVisibilityChange() {
+    console.log(document.hidden);
+  }
+
+  onError() {
+    console.log("播放失败", document.hidden);
+    if (document.hidden) {
+      this.onEnded();
+    }
   }
 }
 
