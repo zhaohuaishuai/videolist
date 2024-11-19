@@ -1,19 +1,23 @@
-import { defineConfig } from 'vite'
-import {resolve} from 'path'
+import { defineConfig } from "vite";
+import { resolve } from "path";
+import buildAfter from "./plugins/vite-plugin-build-after";
 // https://vitejs.dev/config/
 export default defineConfig({
-  resolve:{
-    alias:{
-      '@':resolve(__dirname,'src')
-    }
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
+    },
   },
-  build:{
-    lib:{
+  plugins: [buildAfter()],
+  build: {
+    lib: {
       entry: {
-        main: resolve(__dirname, './src/main.ts'),
+        main: resolve(__dirname, "./src/main.ts"),
       },
-      name:'AudioList',
-      fileName:'[name]'
-    }, 
+      name: "AudioList",
+      fileName: "[name]",
+    },
+    outDir: "dist",
+    watch: {},
   },
-})
+});

@@ -1,5 +1,6 @@
-import AudioList from './lib/AudioList'
-export default AudioList
+import AudioList from "./lib/AudioList";
+export default AudioList;
+
 // const audioList = AudioList.create()
 
 // audioList.setPlayerList(
@@ -28,7 +29,6 @@ export default AudioList
 //     audioList.play()
 // })
 
-
 // document.querySelector('#range')?.addEventListener('input',(e)=>{
 //     console.log(e.target.value)
 //     document.querySelector("#progress").innerText = e.target.value
@@ -43,5 +43,5 @@ export default AudioList
 // })
 
 // document.querySelector('#play_mode_select')?.addEventListener('change',(e)=>{
-//    audioList.mode = e.target.value 
+//    audioList.mode = e.target.value
 // })
