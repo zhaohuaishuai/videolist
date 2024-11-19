@@ -254,14 +254,14 @@ class AudioList extends Audio {
   }
   init() {
     this.addEventListener("ended", this.onEnded.bind(this));
-    this.addEventListener("timeupdate", this.onCustomTimeupdate.bind(this));
+    this.addEventListener("timeupdate", this.onEnded.bind(this));
+    this.addEventListener("error", this.onCustomTimeupdate.bind(this));
   }
   /**
    * 播放完成事件
    * @param event
    */
-  private onEnded(event: Event) {
-    console.log("ened", event);
+  private onEnded() {
     let info = this.currentPlayerInfo;
     switch (this.mode) {
       case PLAYMODEENUM.LOOP:
