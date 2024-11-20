@@ -91,6 +91,7 @@ function formatDuration(duration: number) {
   return `${hoursStr}:${minutesStr}:${secondsStr}`;
 }
 
+const MODE_LOCAL_NAME = "star_audio_list_mode";
 const CreateSymbol = Symbol("create");
 class AudioList extends Audio {
   addEventListener<K extends keyof AudioListEventMap>(
@@ -111,14 +112,16 @@ class AudioList extends Audio {
   /**
    * 播放模式
    */
-  public _mode: PLAYMODETYPE = PLAYMODEENUM.SINGLE;
-
   get mode() {
-    return this._mode;
+    return (
+      (localStorage.getItem(MODE_LOCAL_NAME) as PLAYMODETYPE) ||
+      PLAYMODEENUM.SINGLE
+    );
   }
 
   set mode(mode: PLAYMODETYPE) {
-    this.changeMode(mode);
+    localStorage.setItem(MODE_LOCAL_NAME, mode);
+    this.triggerChangeMode();
   }
   static modes: PLAYMODETYPE[] = ["single", "order", "random", "loop"];
   /**
@@ -127,17 +130,16 @@ class AudioList extends Audio {
    */
   changeMode(mode?: PLAYMODETYPE) {
     if (mode) {
-      this._mode = mode;
+      this.mode = mode;
     } else {
       const index = AudioList.modes.findIndex((m) => m === this.mode);
       const resIndex = (index + 1) % AudioList.modes.length;
-      this._mode = AudioList.modes[resIndex];
+      this.mode = AudioList.modes[resIndex];
     }
-    this.triggerChangeMode();
   }
 
   triggerChangeMode() {
-    this.dispatchEvent(new CustomEvent("modeChage", { detail: this._mode }));
+    this.dispatchEvent(new CustomEvent("modeChage", { detail: this.mode }));
   }
 
   /**
@@ -147,7 +149,8 @@ class AudioList extends Audio {
   set currentIndex(index: number) {
     const isPlaying = !this.paused;
     const currentSrc = this.playerList[index].src;
-    if (this.src === currentSrc) {
+
+    if (decodeURI(this.src) === currentSrc) {
       return;
     }
     this.src = this.playerList[index].src;
@@ -260,6 +263,9 @@ class AudioList extends Audio {
       this.onVisibilityChange.bind(this)
     );
     this.addEventListener("error", this.onError.bind(this));
+    setTimeout(() => {
+      this.triggerChangeMode();
+    }, 1000);
   }
   /**
    * 播放完成事件
